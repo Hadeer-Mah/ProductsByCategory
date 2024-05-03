@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CategoryLabel from "../../components/CategoryLabel/CategoryLabel";
-import { TProduct, TProductResponse } from "../../types/Product.types";
+import { TProductResponse } from "../../types/Product.types";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import CategoriesServices from "../../services/CategoriesServices";
 import LoaderSpinner from "../../components/LoaderSpinner/LoaderSpinner";
@@ -8,8 +8,9 @@ import ProductsServices from "../../services/ProductsServices";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [categoriesList, setCategoriesList] = useState<string[] | null>(null);
-  const [productsList, setProductsList] = useState<TProductResponse[] | null>(null);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [categoriesList, setCategoriesList] = useState<string[]>([]);
+  const [productsList, setProductsList] = useState<TProductResponse[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("");
   async function getAllCategoriesHandler() {
     setIsLoading(true);
@@ -33,7 +34,8 @@ export default function Home() {
       );
       setProductsList(data);
     } catch (err) {
-      console.log("error while fetching categories", err);
+      console.log("error while fetching products", err);
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -67,6 +69,10 @@ export default function Home() {
             ))}
           </div>
         </div>
+        {isError && <div className="text-center">
+        <p>An error occurred</p>
+        <p>Please try again later or contact support for assistance.</p>
+      </div>}
         <div className="products-section overflow-auto max-h-[80vh] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10">
           {productsList?.map((product) => (
             <div className="col-span-1" key={product?.title}>
