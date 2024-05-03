@@ -1,0 +1,27 @@
+.products-section {
+  scrollbar-track-color: #eaecf0;
+  scrollbar-color: #00a5b2;
+  scrollbar-width: 3px;
+}
+.products-section::-webkit-scrollbar {
+  background-color: #eaecf0;
+  width: 3px;
+}
+.products-section::-webkit-scrollbar-thumb {
+  background-color: #00a5b2;
+  border-radius: 3px;
+}
+.fade-up-animation {
+  opacity: 0;
+  animation: fade-up 0.5s ease-out forwards;
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

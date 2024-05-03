@@ -5,6 +5,7 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import CategoriesServices from "../../services/CategoriesServices";
 import LoaderSpinner from "../../components/LoaderSpinner/LoaderSpinner";
 import ProductsServices from "../../services/ProductsServices";
+import "./Home.css";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -69,13 +70,19 @@ export default function Home() {
             ))}
           </div>
         </div>
-        {isError && <div className="text-center">
-        <p>An error occurred</p>
-        <p>Please try again later or contact support for assistance.</p>
-      </div>}
+        {isError && (
+          <div className="text-center">
+            <p>An error occurred</p>
+            <p>Please try again later or contact support for assistance.</p>
+          </div>
+        )}
         <div className="products-section overflow-auto max-h-[80vh] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10">
-          {productsList?.map((product) => (
-            <div className="col-span-1" key={product?.title}>
+          {productsList?.map((product, index) => (
+            <div
+              className="col-span-1 fade-up-animation"
+              key={product?.title}
+              style={{ animationDelay: `${index * 0.3}s` }}
+            >
               <ProductCard
                 name={product?.title}
                 description={product?.description}

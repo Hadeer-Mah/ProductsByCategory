@@ -7,8 +7,8 @@ export default function CategoryLabel({
 }: CategoryProps) {
   return (
     <div
-      className={`w-fit border border-gray-300 rounded-md px-6 py-1.5 text-sm text-slate-600 font-medium flex justify-center items-center cursor-pointer ${
-        activeCategory === name ? "text-white bg-black boreder-0" : ""
+      className={`w-fit border border-gray-300 rounded-md px-6 py-1.5 text-sm text-slate-600 font-medium flex justify-center items-center cursor-pointer hover:bg-black hover:text-white hover:border-transparent transition duration-500 ${
+        activeCategory === name ? "text-white bg-black boreder-transparent" : ""
       }`}
       onClick={() => {
         setActiveCategory(name);
