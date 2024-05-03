@@ -1,5 +1,14 @@
 export type TProduct = {
-    name?: string,
-    subtitle?: string,
-    image?: string,
-}
+  name?: string;
+  description?: string;
+  image?: string;
+};
+
+export type TProductResponse = {
+  id: number;
+  title: string;
+  price: string;
+  category: string;
+  description: string;
+  image: string;
+};
