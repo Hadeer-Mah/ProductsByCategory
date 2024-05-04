@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { TProductResponse } from "../../types/Product.types";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
@@ -12,7 +12,6 @@ import "./Home.css";
 
 export default function Home() {
   const navigate = useNavigate();
-  const productsSectionRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { categoryName } = useParams<{ categoryName: string }>();
   const [categoriesList, setCategoriesList] = useState<string[]>([]);
@@ -52,9 +51,6 @@ export default function Home() {
         activeCategory
       );
       setProductsList(data);
-      if (productsSectionRef.current) {
-        productsSectionRef.current.scrollTo({ top: 0, behavior: "smooth" });
-      }
     } catch (err) {
       console.log("error while fetching products", err);
     } finally {
@@ -105,10 +101,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div
-          ref={productsSectionRef}
-          className="products-section custom-scrollbar cursor-pointer overflow-auto max-h-[80vh] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 p-5"
-        >
+        <div className="products-section cursor-pointer grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 p-5">
           {productsList?.map((product, index) => (
             <div
               className="col-span-1 fade-up-animation shadow-lg rounded-lg overflow-hidden p-4"

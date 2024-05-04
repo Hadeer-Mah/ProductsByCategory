@@ -23,15 +23,15 @@ function ProductDetailsModal({ product, onClose }: TProductDetailsProps) {
 
   return (
     <div
-      className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-[100]"
+      className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-[100] px-3"
       onClick={clickOutsideModalHandler}
     >
       <div
-        className={`bg-white rounded-lg p-5 max-w-md max-h-[80%] overflow-hidden product-details-modal ${
+        className={`bg-white rounded-lg p-5 max-w-md overflow-auto max-h-[80%] product-details-modal custom-scrollbar relative ${
           closing ? "closing" : ""
         }`}
       >
-        <div className="w-full flex justify-end mb-4">
+        <div className="absolute top-2 right-2">
           <img
             src={closeIcon}
             alt="close-icon"
@@ -42,7 +42,7 @@ function ProductDetailsModal({ product, onClose }: TProductDetailsProps) {
         <img
           src={product?.image}
           alt={product?.title}
-          className="w-full mb-4 max-h-[200px] object-contain"
+          className="w-[50%] mx-auto mb-4 max-h-[200px] object-contain mt-8"
         />
         <div className="flex justify-between mt-8 items-center">
           <p className="px-5 py-1 bg-[#ff8500] text-white rounded text-center text-sm">
@@ -50,10 +50,8 @@ function ProductDetailsModal({ product, onClose }: TProductDetailsProps) {
           </p>
           <p className="font-bold text-xl">{`$${product?.price}`}</p>
         </div>
-        <div className="font-bold text-lg my-2">{product?.title}</div>
-        <div className="mb-9 custom-scrollbar overflow-auto max-h-[100px] pb-5">
-          {product?.description}
-        </div>
+        <div className="font-bold text-base my-2">{product?.title}</div>
+        <div className="text-sm">{product?.description}</div>
       </div>
     </div>
   );

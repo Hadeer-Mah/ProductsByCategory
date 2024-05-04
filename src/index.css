@@ -8,8 +8,21 @@
   box-sizing: border-box;
   font-family: var(--font-regular);
 }
-body {
-  overflow: hidden;
+body::-webkit-scrollbar {
+  width: 8px !important;
+}
+.custom-scrollbar {
+  scrollbar-track-color: #eaecf0;
+  scrollbar-color: #00a5b2;
+  scrollbar-width: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  background-color: #eaecf0;
+  width: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.586);
+  border-radius: 3px;
 }
 
 @media (min-width: 768px) {
