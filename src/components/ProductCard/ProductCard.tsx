@@ -11,8 +11,12 @@ export default function ProductCard({ name, description, image }: TProduct) {
       />
       <div className="py-4">
         <div className="font-bold text-lg">{name || "Product Name"}</div>
-        <p className="text-gray-700 text-base">
-          {description || "Product subtitle"}
+        <p className="text-gray-700 text-base product-description">
+          {description
+            ? description?.length >= 15
+              ? description?.split(" ")?.slice(0, 15)?.join(" ") + " ..."
+              : description
+            : "Product subtitle"}
         </p>
       </div>
     </div>

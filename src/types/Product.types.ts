@@ -12,3 +12,8 @@ export type TProductResponse = {
   description: string;
   image: string;
 };
+
+export type TProductDetailsProps = {
+  product: TProductResponse,
+  onClose: () => void;
+}

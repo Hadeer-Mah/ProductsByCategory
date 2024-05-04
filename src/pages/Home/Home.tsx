@@ -8,6 +8,7 @@ import LoaderSpinner from "../../components/LoaderSpinner/LoaderSpinner";
 import ProductsServices from "../../services/ProductsServices";
 import "./Home.css";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
+import ProductDetailsModal from "../../components/ProductDetailsModal/ProductDetailsModal";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -16,9 +17,11 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [productsList, setProductsList] = useState<TProductResponse[]>([]);
   const [categoriesList, setCategoriesList] = useState<string[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string>(categoryName ?? "");
+  const [activeCategory, setActiveCategory] = useState<string>(
+    categoryName ?? ""
+  );
   useDocumentTitle(activeCategory);
-  
+
   async function getAllCategoriesHandler() {
     setIsLoading(true);
     try {
@@ -66,9 +69,25 @@ export default function Home() {
     constructUrl();
   }, [activeCategory]);
 
+  const [selectedProduct, setSelectedProduct] =
+    useState<TProductResponse | null>(null);
+
+  function openingProductModalHandler(product: TProductResponse) {
+    setSelectedProduct(product);
+  }
+
+  function closingProductModalHandler() {
+    setSelectedProduct(null);
+  }
   return (
     <>
       {isLoading && <LoaderSpinner />}
+      {selectedProduct && (
+        <ProductDetailsModal
+          product={selectedProduct}
+          onClose={closingProductModalHandler}
+        />
+      )}
       <div className="container mx-auto py-11 px-5">
         <div className="grid md:grid-cols-3 grid-cols-1">
           <div className="col-span-1 md:text-start sm:text-center">
@@ -90,13 +109,14 @@ export default function Home() {
         </div>
         <div
           ref={productsSectionRef}
-          className="products-section overflow-auto max-h-[80vh] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 px-5"
+          className="custom-scrollbar cursor-pointer overflow-auto max-h-[80vh] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 px-5"
         >
           {productsList?.map((product, index) => (
             <div
               className="col-span-1 fade-up-animation"
               key={product?.title}
               style={{ animationDelay: `${index * 0.3}s` }}
+              onClick={() => openingProductModalHandler(product)}
             >
               <ProductCard
                 name={product?.title}
