@@ -1,26 +1,34 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { TProductResponse } from "../../types/Product.types";
-import CategoryLabel from "../../components/CategoryLabel/CategoryLabel";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
+import ProductsServices from "../../services/ProductsServices";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import CategoriesServices from "../../services/CategoriesServices";
 import LoaderSpinner from "../../components/LoaderSpinner/LoaderSpinner";
-import ProductsServices from "../../services/ProductsServices";
-import "./Home.css";
-import useDocumentTitle from "../../hooks/useDocumentTitle";
+import CategoryLabel from "../../components/CategoryLabel/CategoryLabel";
 import ProductDetailsModal from "../../components/ProductDetailsModal/ProductDetailsModal";
+import "./Home.css";
 
 export default function Home() {
   const navigate = useNavigate();
   const productsSectionRef = useRef<HTMLDivElement>(null);
-  const { categoryName } = useParams<{ categoryName: string }>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [productsList, setProductsList] = useState<TProductResponse[]>([]);
+  const { categoryName } = useParams<{ categoryName: string }>();
   const [categoriesList, setCategoriesList] = useState<string[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string>(
-    categoryName ?? ""
-  );
+  const [productsList, setProductsList] = useState<TProductResponse[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string>(categoryName ?? "");
+  const [selectedProduct, setSelectedProduct] = useState<TProductResponse | null>(null);
+
   useDocumentTitle(activeCategory);
+
+  function openingProductModalHandler(product: TProductResponse) {
+    setSelectedProduct(product);
+  }
+
+  function closingProductModalHandler() {
+    setSelectedProduct(null);
+  }
 
   async function getAllCategoriesHandler() {
     setIsLoading(true);
@@ -69,16 +77,6 @@ export default function Home() {
     constructUrl();
   }, [activeCategory]);
 
-  const [selectedProduct, setSelectedProduct] =
-    useState<TProductResponse | null>(null);
-
-  function openingProductModalHandler(product: TProductResponse) {
-    setSelectedProduct(product);
-  }
-
-  function closingProductModalHandler() {
-    setSelectedProduct(null);
-  }
   return (
     <>
       {isLoading && <LoaderSpinner />}
@@ -90,13 +88,13 @@ export default function Home() {
       )}
       <div className="container mx-auto py-11 px-5">
         <div className="grid md:grid-cols-3 grid-cols-1">
-          <div className="col-span-1 md:text-start sm:text-center">
+          <div className="col-span-1 md:text-start sm:text-center xs:text-center">
             <p className="font-bold text-2xl mb-1">Shop by Category</p>
             <p className="text-sm text-gray-500 font-medium">
               Discover the perfect products for your needs.
             </p>
           </div>
-          <div className="md:col-span-2 col-span-1 flex flex-wrap items-center gap-3 md:mt-0 md:justify-end sm:justify-center sm:mt-4">
+          <div className="md:col-span-2 col-span-1 flex flex-wrap items-center gap-3 md:mt-0 md:justify-end sm:justify-center sm:mt-4 xs:justify-center xs:mt-4">
             {categoriesList?.map((category) => (
               <CategoryLabel
                 key={category}
@@ -109,11 +107,11 @@ export default function Home() {
         </div>
         <div
           ref={productsSectionRef}
-          className="custom-scrollbar cursor-pointer overflow-auto max-h-[80vh] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 px-5"
+          className="products-section custom-scrollbar cursor-pointer overflow-auto max-h-[80vh] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 p-5"
         >
           {productsList?.map((product, index) => (
             <div
-              className="col-span-1 fade-up-animation"
+              className="col-span-1 fade-up-animation shadow-lg rounded-lg overflow-hidden p-4"
               key={product?.title}
               style={{ animationDelay: `${index * 0.3}s` }}
               onClick={() => openingProductModalHandler(product)}

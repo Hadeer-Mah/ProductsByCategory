@@ -15,6 +15,13 @@
   opacity: 0;
   animation: fade-up 0.5s ease-out forwards;
 }
+.fade-up-animation img {
+  transition: 0.2s;
+}
+.fade-up-animation:hover img {
+  transform: scale(1.2);
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -23,5 +30,10 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+@media (max-width: 420px) {
+  .products-section {
+    max-height: 60vh !important;
   }
 }
