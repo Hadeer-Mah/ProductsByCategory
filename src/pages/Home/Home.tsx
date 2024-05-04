@@ -1,28 +1,30 @@
-import { useEffect, useState } from "react";
-import CategoryLabel from "../../components/CategoryLabel/CategoryLabel";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { TProductResponse } from "../../types/Product.types";
+import CategoryLabel from "../../components/CategoryLabel/CategoryLabel";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import CategoriesServices from "../../services/CategoriesServices";
 import LoaderSpinner from "../../components/LoaderSpinner/LoaderSpinner";
 import ProductsServices from "../../services/ProductsServices";
 import "./Home.css";
-import { useNavigate, useParams } from "react-router-dom";
 
 export default function Home() {
-  const { categoryName } = useParams<{ categoryName: string }>();
   const navigate = useNavigate();
+  const productsSectionRef = useRef<HTMLDivElement>(null);
+  const { categoryName } = useParams<{ categoryName: string }>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [categoriesList, setCategoriesList] = useState<string[]>([]);
   const [productsList, setProductsList] = useState<TProductResponse[]>([]);
+  const [categoriesList, setCategoriesList] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>(
     categoryName ?? ""
   );
+
   async function getAllCategoriesHandler() {
     setIsLoading(true);
     try {
       const { data } = await CategoriesServices.getAllCategories();
       setCategoriesList(data);
-      if (data?.length > 0 && categoryName === "category") {
+      if (data?.length > 0 && !categoryName) {
         setActiveCategory(data[0]);
       }
     } catch (err) {
@@ -31,6 +33,7 @@ export default function Home() {
       setIsLoading(false);
     }
   }
+
   async function getProductsFilteredByCategoryHandler() {
     setIsLoading(true);
     try {
@@ -38,12 +41,16 @@ export default function Home() {
         activeCategory
       );
       setProductsList(data);
+      if (productsSectionRef.current) {
+        productsSectionRef.current.scrollTo({ top: 0, behavior: "smooth" });
+      }
     } catch (err) {
       console.log("error while fetching products", err);
     } finally {
       setIsLoading(false);
     }
   }
+
   useEffect(() => {
     getAllCategoriesHandler();
   }, []);
@@ -54,10 +61,8 @@ export default function Home() {
 
   useEffect(() => {
     const constructUrl = () => {
-      const urlParams = [activeCategory].join("/");
-      navigate(`/products/${urlParams}`);
+      navigate(`/products/${activeCategory}`);
     };
-
     constructUrl();
   }, [activeCategory]);
 
@@ -83,7 +88,10 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="products-section overflow-auto max-h-[80vh] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10">
+        <div
+          ref={productsSectionRef}
+          className="products-section overflow-auto max-h-[80vh] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 px-5"
+        >
           {productsList?.map((product, index) => (
             <div
               className="col-span-1 fade-up-animation"

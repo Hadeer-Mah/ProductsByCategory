@@ -8,7 +8,7 @@
   width: 3px;
 }
 .products-section::-webkit-scrollbar-thumb {
-  background-color: #00a5b2;
+  background-color: rgba(0, 0, 0, 0.586);
   border-radius: 3px;
 }
 .fade-up-animation {
