@@ -7,6 +7,7 @@ import CategoriesServices from "../../services/CategoriesServices";
 import LoaderSpinner from "../../components/LoaderSpinner/LoaderSpinner";
 import ProductsServices from "../../services/ProductsServices";
 import "./Home.css";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -15,10 +16,9 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [productsList, setProductsList] = useState<TProductResponse[]>([]);
   const [categoriesList, setCategoriesList] = useState<string[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string>(
-    categoryName ?? ""
-  );
-
+  const [activeCategory, setActiveCategory] = useState<string>(categoryName ?? "");
+  useDocumentTitle(activeCategory);
+  
   async function getAllCategoriesHandler() {
     setIsLoading(true);
     try {

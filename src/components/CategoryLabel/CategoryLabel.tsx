@@ -14,7 +14,7 @@ export default function CategoryLabel({
         setActiveCategory(name);
       }}
     >
-      {name}
+      {name?.toUpperCase()}
     </div>
   );
 }
