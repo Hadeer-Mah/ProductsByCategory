@@ -6,19 +6,23 @@ import CategoriesServices from "../../services/CategoriesServices";
 import LoaderSpinner from "../../components/LoaderSpinner/LoaderSpinner";
 import ProductsServices from "../../services/ProductsServices";
 import "./Home.css";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Home() {
+  const { categoryName } = useParams<{ categoryName: string }>();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
   const [categoriesList, setCategoriesList] = useState<string[]>([]);
   const [productsList, setProductsList] = useState<TProductResponse[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string>("");
+  const [activeCategory, setActiveCategory] = useState<string>(
+    categoryName ?? ""
+  );
   async function getAllCategoriesHandler() {
     setIsLoading(true);
     try {
       const { data } = await CategoriesServices.getAllCategories();
       setCategoriesList(data);
-      if (data?.length > 0) {
+      if (data?.length > 0 && categoryName === "category") {
         setActiveCategory(data[0]);
       }
     } catch (err) {
@@ -36,7 +40,6 @@ export default function Home() {
       setProductsList(data);
     } catch (err) {
       console.log("error while fetching products", err);
-      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -44,8 +47,18 @@ export default function Home() {
   useEffect(() => {
     getAllCategoriesHandler();
   }, []);
+
   useEffect(() => {
     activeCategory && getProductsFilteredByCategoryHandler();
+  }, [activeCategory]);
+
+  useEffect(() => {
+    const constructUrl = () => {
+      const urlParams = [activeCategory].join("/");
+      navigate(`/products/${urlParams}`);
+    };
+
+    constructUrl();
   }, [activeCategory]);
 
   return (
@@ -70,12 +83,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-        {isError && (
-          <div className="text-center">
-            <p>An error occurred</p>
-            <p>Please try again later or contact support for assistance.</p>
-          </div>
-        )}
         <div className="products-section overflow-auto max-h-[80vh] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10">
           {productsList?.map((product, index) => (
             <div
