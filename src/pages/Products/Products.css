@@ -5,7 +5,7 @@
 .fade-up-animation img {
   transition: 0.2s;
 }
-.fade-up-animation:hover img {
+.fade-up-animation:hover div > div > img {
   transform: scale(1.2);
 }
 

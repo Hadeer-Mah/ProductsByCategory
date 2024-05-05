@@ -1,9 +1,10 @@
-import MainRoutes from './routes/MainRoutes'
-import './App.css'
-import { useEffect, useState } from 'react';
-import OfflinePage from './pages/OfflinePage/OfflinePage';
-import { checkFixLang } from './locales/lang';
-import i18n from './locales/i18n';
+import MainRoutes from "./routes/MainRoutes";
+import "./App.css";
+import { useEffect, useState } from "react";
+import OfflinePage from "./pages/OfflinePage/OfflinePage";
+import { checkFixLang } from "./locales/lang";
+import i18n from "./locales/i18n";
+import LanguageButton from "./components/LanguageButton/LanguageButton";
 
 function App() {
   const lang = i18n.language;
@@ -17,12 +18,12 @@ function App() {
       setIsOnline(navigator.onLine); // Update state with current online status
     };
     // Event listeners for the 'online' and 'offline' events to detect changes in connectivity.
-    window.addEventListener('online', handleOnlineStatusChange);
-    window.addEventListener('offline', handleOnlineStatusChange);
+    window.addEventListener("online", handleOnlineStatusChange);
+    window.addEventListener("offline", handleOnlineStatusChange);
     // Removes event listeners when the component unmounts to prevent memory leaks.
     return () => {
-      window.removeEventListener('online', handleOnlineStatusChange);
-      window.removeEventListener('offline', handleOnlineStatusChange);
+      window.removeEventListener("online", handleOnlineStatusChange);
+      window.removeEventListener("offline", handleOnlineStatusChange);
     };
   }, []);
 
@@ -30,12 +31,15 @@ function App() {
   useEffect(() => {
     checkFixLang(lang);
   }, [lang]);
-  
-  return isOnline ? <MainRoutes/> : <OfflinePage/>
-    
-  
 
-
+  return isOnline ? (
+    <>
+      <LanguageButton />
+       <MainRoutes />
+    </>
+  ) : (
+    <OfflinePage />
+  );
 }
 
-export default App
+export default App;

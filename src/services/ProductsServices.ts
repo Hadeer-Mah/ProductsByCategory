@@ -6,6 +6,10 @@ const ProductsServices = {
     const response = await Axios.get<TProductResponse[]>(`products/category/${category}`);
     return response;
   },
+  getProductDetails: async function (id: string = "") {
+    const response = await Axios.get<TProductResponse>(`products/${id}`);
+    return response;
+  },
 }
 
 export default ProductsServices;
