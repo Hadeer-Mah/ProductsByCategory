@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { TProductResponse } from "../../types/Product.types";
-import showIcon from "../../assets/show-icon.svg";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import ProductsServices from "../../services/ProductsServices";
 import ProductCard from "../../components/ProductCard/ProductCard";
@@ -117,27 +116,11 @@ export default function Products() {
         </div>
         <div className="products-section cursor-pointer grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 p-5">
           {productsList?.map((product, index) => (
-            <div
-              className="col-span-1 fade-up-animation shadow-lg rounded-lg overflow-hidden p-4 relative"
-              key={product?.title}
-              style={{ animationDelay: `${index * 0.3}s` }}
-              onClick={()=>{navigate(`/products/details/${product.id}`)}}
-            >
-              <img
-                src={showIcon}
-                alt="show-icon"
-                className="absolute top-4 end-4 cursor-pointer w-[30px] z-40"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  openingProductModalHandler(product);
-                }}
-              />
               <ProductCard
-                name={product?.title}
-                description={product?.description}
-                image={product?.image}
+                product={product}
+                index={index}
+                openModal={openingProductModalHandler}
               />
-            </div>
           ))}
         </div>
       </div>
