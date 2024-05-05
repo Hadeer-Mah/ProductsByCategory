@@ -114,7 +114,7 @@ export default function Products() {
             ))}
           </div>
         </div>
-        <div className="products-section cursor-pointer grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 p-5">
+        <div className="products-section grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 p-5">
           {productsList?.map((product, index) => (
               <ProductCard
                 product={product}

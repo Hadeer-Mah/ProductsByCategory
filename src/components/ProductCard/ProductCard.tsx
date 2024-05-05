@@ -1,22 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { TProductProps } from "../../types/Product.types";
 import notFoundImg from "../../assets/not-found-img.jpg";
-import showIcon from "../../assets/show-icon.svg";
+import showIcon from "../../assets/show-icon.webp";
+import { useTranslation } from "react-i18next";
 
 export default function ProductCard({
   product,
   index,
   openModal,
 }: TProductProps) {
+  
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   return (
     <div
       className="col-span-1 fade-up-animation shadow-lg rounded-lg overflow-hidden p-4 relative"
       key={product?.title}
       style={{ animationDelay: `${index * 0.3}s` }}
-      onClick={() => {
-        navigate(`/products/details/${product.id}`);
-      }}
     >
       <img
         src={showIcon}
@@ -52,6 +53,16 @@ export default function ProductCard({
                 : product?.description
               : "Product subtitle"}
           </p>
+          <div className="mx-auto w-[50%] mt-5">
+            <button
+              className="py-2 bg-[#ff8500] text-white rounded text-center text-sm w-full cursor-pointer"
+              onClick={() => {
+                navigate(`/products/details/${product.id}`);
+              }}
+            >
+              {t("Show Details >>")}
+            </button>
+          </div>
         </div>
       </div>
     </div>
