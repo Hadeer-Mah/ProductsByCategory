@@ -8,14 +8,17 @@ function ProductDetailsModal({ product, onClose }: TProductDetailsProps) {
 
   function closingModalHandler() {
     setClosing(true);
+    // Wait for the animation to complete before triggering onClose function
     setTimeout(() => {
       onClose();
-    }, 300);
+    }, 200);
   }
 
+  //Close modal when clicking anywhere outside it
   function clickOutsideModalHandler(
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) {
+    // Checking if the user has clicked outside the modal not on an element within the modal itself
     if (event.target === event.currentTarget) {
       closingModalHandler();
     }

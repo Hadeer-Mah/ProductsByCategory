@@ -18,22 +18,26 @@ export default function Home() {
   const [productsList, setProductsList] = useState<TProductResponse[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>(categoryName ?? "");
   const [selectedProduct, setSelectedProduct] = useState<TProductResponse | null>(null);
-
+  
+  // Use custom hook to change document title with the active category
   useDocumentTitle(activeCategory);
 
+  // Handles opening the product details modal by setting the selected product data in the state to be displayed.
   function openingProductModalHandler(product: TProductResponse) {
     setSelectedProduct(product);
   }
-
+  // Handles closing the product modal by resetting the selected product to null.
   function closingProductModalHandler() {
     setSelectedProduct(null);
   }
 
+  // Get categories to filter products by switching between them.
   async function getAllCategoriesHandler() {
     setIsLoading(true);
     try {
       const { data } = await CategoriesServices.getAllCategories();
       setCategoriesList(data);
+      // Set the first category item as the current active category when rendering the page if no other filtration is applied yet
       if (data?.length > 0 && !categoryName) {
         setActiveCategory(data[0]);
       }
@@ -44,6 +48,7 @@ export default function Home() {
     }
   }
 
+  // Get products filtered by the selected active category
   async function getProductsFilteredByCategoryHandler() {
     setIsLoading(true);
     try {
@@ -62,10 +67,13 @@ export default function Home() {
     getAllCategoriesHandler();
   }, []);
 
+  // Recall get products function every time the active category changes to get the filtered products by this category
   useEffect(() => {
     activeCategory && getProductsFilteredByCategoryHandler();
   }, [activeCategory]);
 
+  /* Reconstruct the url every time active category changes to save category as a url param to preserve last filtered data 
+  allowing users to share or bookmark the filtered view and restoring it when the page is reloaded. */
   useEffect(() => {
     const constructUrl = () => {
       navigate(`/products/${activeCategory}`);
