@@ -2,8 +2,10 @@ import { useState } from "react";
 import { TProductDetailsProps } from "../../types/Product.types";
 import closeIcon from "../../assets/close-icon.svg";
 import "./ProductDetailsModal.css";
+import { useTranslation } from "react-i18next";
 
 function ProductDetailsModal({ product, onClose }: TProductDetailsProps) {
+  const { t } = useTranslation();
   const [closing, setClosing] = useState<boolean>(false);
 
   function closingModalHandler() {
@@ -34,7 +36,7 @@ function ProductDetailsModal({ product, onClose }: TProductDetailsProps) {
           closing ? "closing" : ""
         }`}
       >
-        <div className="absolute top-2 right-2">
+        <div className="absolute top-2 end-2">
           <img
             src={closeIcon}
             alt="close-icon"
@@ -49,7 +51,7 @@ function ProductDetailsModal({ product, onClose }: TProductDetailsProps) {
         />
         <div className="flex justify-between mt-8 items-center">
           <p className="px-5 py-1 bg-[#ff8500] text-white rounded text-center text-sm">
-            {product?.category?.toUpperCase()}
+            {t(product?.category?.toUpperCase())}
           </p>
           <p className="font-bold text-xl">{`$${product?.price}`}</p>
         </div>

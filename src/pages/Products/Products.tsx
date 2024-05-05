@@ -7,11 +7,14 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import CategoriesServices from "../../services/CategoriesServices";
 import LoaderSpinner from "../../components/LoaderSpinner/LoaderSpinner";
 import CategoryLabel from "../../components/CategoryLabel/CategoryLabel";
+import LanguageButton from "../../components/LanguageButton/LanguageButton";
 import ProductDetailsModal from "../../components/ProductDetailsModal/ProductDetailsModal";
 import "./Products.css";
+import { useTranslation } from "react-i18next";
 
 export default function Products() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { categoryName } = useParams<{ categoryName: string }>();
   const [categoriesList, setCategoriesList] = useState<string[]>([]);
@@ -90,12 +93,13 @@ export default function Products() {
           onClose={closingProductModalHandler}
         />
       )}
+      <LanguageButton/>
       <div className="container mx-auto py-11 px-5">
         <div className="grid md:grid-cols-3 grid-cols-1">
           <div className="col-span-1 md:text-start sm:text-center xs:text-center">
-            <p className="font-bold text-2xl mb-1">Shop by Category</p>
+            <p className="font-bold text-2xl mb-1">{t("Shop by Category")}</p>
             <p className="text-sm text-gray-500 font-medium">
-              Discover the perfect products for your needs.
+              {t("Discover the perfect products for your needs")}.
             </p>
           </div>
           <div className="md:col-span-2 col-span-1 flex flex-wrap items-center gap-3 md:mt-0 md:justify-end sm:justify-center sm:mt-4 xs:justify-center xs:mt-4">

@@ -2,8 +2,11 @@ import MainRoutes from './routes/MainRoutes'
 import './App.css'
 import { useEffect, useState } from 'react';
 import OfflinePage from './pages/OfflinePage/OfflinePage';
+import { checkFixLang } from './locales/lang';
+import i18n from './locales/i18n';
 
 function App() {
+  const lang = i18n.language;
   const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
 
   /* monitoring changes in the online status of the browser, 
@@ -23,6 +26,10 @@ function App() {
     };
   }, []);
 
+  // Change HTML direction when changing website language
+  useEffect(() => {
+    checkFixLang(lang);
+  }, [lang]);
   
   return isOnline ? <MainRoutes/> : <OfflinePage/>
     

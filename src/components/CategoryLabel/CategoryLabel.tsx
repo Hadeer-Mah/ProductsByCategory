@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { CategoryProps } from "../../types/Category.types";
 
 export default function CategoryLabel({
@@ -5,6 +6,9 @@ export default function CategoryLabel({
   activeCategory,
   setActiveCategory,
 }: CategoryProps) {
+
+  const { t } = useTranslation();
+
   return (
     <div
       className={`w-fit border border-gray-300 rounded-md px-6 py-1.5 text-sm text-slate-600 font-medium flex justify-center items-center cursor-pointer hover:bg-black hover:text-white hover:border-transparent transition duration-500 ${
@@ -14,7 +18,7 @@ export default function CategoryLabel({
         setActiveCategory(name);
       }}
     >
-      {name?.toUpperCase()}
+      {t(name?.toUpperCase())}
     </div>
   );
 }
