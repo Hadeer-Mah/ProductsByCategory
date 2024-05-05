@@ -8,9 +8,9 @@ import CategoriesServices from "../../services/CategoriesServices";
 import LoaderSpinner from "../../components/LoaderSpinner/LoaderSpinner";
 import CategoryLabel from "../../components/CategoryLabel/CategoryLabel";
 import ProductDetailsModal from "../../components/ProductDetailsModal/ProductDetailsModal";
-import "./Home.css";
+import "./Products.css";
 
-export default function Home() {
+export default function Products() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { categoryName } = useParams<{ categoryName: string }>();
