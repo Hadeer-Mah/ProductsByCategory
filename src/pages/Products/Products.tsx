@@ -117,6 +117,7 @@ export default function Products() {
         <div className="products-section grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 mt-10 p-5">
           {productsList?.map((product, index) => (
               <ProductCard
+                key={product?.id}
                 product={product}
                 index={index}
                 openModal={openingProductModalHandler}
