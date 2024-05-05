@@ -51,18 +51,11 @@ export default function ProductCard({
                 ? product?.description?.split(" ")?.slice(0, 15)?.join(" ") +
                   " ..."
                 : product?.description
-              : "Product subtitle"}
-          </p>
-          <div className="mx-auto w-[50%] mt-5">
-            <button
-              className="py-2 bg-[#ff8500] text-white rounded text-center text-sm w-full cursor-pointer"
-              onClick={() => {
+              : "Product subtitle"} <span className="text-[#ff8500] cursor-pointer" onClick={() => {
                 navigate(`/products/details/${product.id}`);
-              }}
-            >
-              {t("Show Details >>")}
-            </button>
-          </div>
+              }}>{t("View Product")}</span>
+          </p>
+          
         </div>
       </div>
     </div>
